@@ -44,7 +44,6 @@ namespace LightPlugin
 
             PlayerAPI.Hurting += player.onPlayerDamage;
             PlayerAPI.Shooting += onShooting;
-
         }
 
         private void UnRegisterPlayerEvents()
@@ -62,7 +61,6 @@ namespace LightPlugin
 
             PlayerAPI.Hurting -= player.onPlayerDamage;
             PlayerAPI.Shooting -= onShooting;
-
         }
 
         private void Initialization()
