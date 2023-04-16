@@ -68,7 +68,6 @@ namespace LightPlugin
         private void Initialization()
         {
             player = new Events.Internal.Player();
-
         }
 
         private void UnInitialization()

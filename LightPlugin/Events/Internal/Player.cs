@@ -1,5 +1,4 @@
 ﻿using Exiled.Events.EventArgs.Player;
-using LightPlugin.Features;
 using PluginAPI.Core.Attributes;
 using PluginAPI.Enums;
 using PlayerAPI = Exiled.API.Features.Player;
