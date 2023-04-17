@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using Exiled.API.Extensions;
 using Exiled.API.Features;
 using Exiled.Events.EventArgs.Player;
-using PlayerRoles;
 namespace LightPlugin.Features
 {
     public sealed class TeamDamage
     {
-        private readonly Dictionary<int, float> teamDamage = new Dictionary<int, float>();
+        private readonly Dictionary<Player, float> teamDamage = new Dictionary<Player, float>();
 
         public void onAttack(HurtingEventArgs ev)
         {
@@ -25,17 +24,17 @@ namespace LightPlugin.Features
 
                 if (!isTeam) return;
 
-                if (IsTeamDamager(ev.Attacker)) teamDamage.Add(ev.Attacker.Id, 0f);
+                if (!IsTeamDamager(attacker)) teamDamage.Add(attacker, 0f);
 
-                if (teamDamage[ev.Attacker.Id] >= 500f)
+                if (teamDamage[attacker] >= 500f)
                 {
                     ev.IsAllowed = false;
-                    ev.Attacker.Broadcast(5, "Вы превысели норму урона по союзным классам.");
+                    attacker.Broadcast(5, "Вы превысели норму урона по союзным классам.");
 
                     return;
                 }
 
-                teamDamage[ev.Attacker.Id] += ev.Amount;
+                teamDamage[attacker] += ev.Amount;
             }
             catch (Exception e)
             {
@@ -43,13 +42,13 @@ namespace LightPlugin.Features
             }
         }
 
-        private bool IsTeamDamager(Player attaker) => teamDamage.ContainsKey(attaker.Id);
+        private bool IsTeamDamager(Player attaker) => teamDamage.ContainsKey(attaker);
 
         public void RemoveTeam(Player player)
         {
             if (!IsTeamDamager(player)) return;
 
-            teamDamage.Remove(player.Id);
+            teamDamage.Remove(player);
         }
     }
 }
