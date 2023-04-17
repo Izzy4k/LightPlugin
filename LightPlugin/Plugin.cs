@@ -38,12 +38,12 @@ namespace LightPlugin
 
         private void RegisterEvents()
         {
-            PlayerMyAPI.OnPlayerSpawn += player.OnPlayerSpawn;
             PlayerMyAPI.OnPlayerLeft += player.OnPlayerLeft;
             PlayerMyAPI.OnPlayerDeath += player.OnPlayerDeath;
 
             PlayerAPI.Hurting += player.onPlayerDamage;
             PlayerAPI.Shooting += onShooting;
+            PlayerAPI.Dying += player.onPlayerDying;
         }
 
         private void UnRegisterPlayerEvents()
@@ -55,12 +55,12 @@ namespace LightPlugin
 
         private void UnRegisterEvents()
         {
-            PlayerMyAPI.OnPlayerSpawn -= player.OnPlayerSpawn;
             PlayerMyAPI.OnPlayerLeft -= player.OnPlayerLeft;
             PlayerMyAPI.OnPlayerDeath -= player.OnPlayerDeath;
 
             PlayerAPI.Hurting -= player.onPlayerDamage;
             PlayerAPI.Shooting -= onShooting;
+            PlayerAPI.Dying -= player.onPlayerDying;
         }
 
         private void Initialization()

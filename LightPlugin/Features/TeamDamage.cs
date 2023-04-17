@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Exiled.API.Features;
 using Exiled.Events.EventArgs.Player;
-
+using PlayerRoles;
 namespace LightPlugin.Features
 {
     public sealed class TeamDamage
@@ -13,19 +13,32 @@ namespace LightPlugin.Features
         {
             try
             {
-                if (ev.Attacker.RoleManager.CurrentRole.Team != ev.Player.RoleManager.CurrentRole.Team) return;
+                var attacker = ev.Attacker;
+
+                var player = ev.Player;
+
+                var attackerTeam = attacker.Role.Team;
+                var playerTeam = player.Role.Team;
+
+                var isTeam = (attackerTeam == playerTeam) || (attackerTeam == Team.FoundationForces && playerTeam == Team.Scientists)
+                || (attackerTeam == Team.Scientists && playerTeam == Team.FoundationForces);
+
+                if (!isTeam) return;
 
                 if (IsTeamDamager(ev.Attacker)) teamDamage.Add(ev.Attacker.Id, 0f);
-
-                teamDamage[ev.Attacker.Id] += ev.Amount;
 
                 if (teamDamage[ev.Attacker.Id] >= 500f)
                 {
                     ev.IsAllowed = false;
                     ev.Attacker.Broadcast(5, "Вы превысели норму урона по союзным классам.");
+
+                    return;
                 }
+
+                teamDamage[ev.Attacker.Id] += ev.Amount;
             }
-            catch(Exception e) {
+            catch (Exception e)
+            {
                 Log.Error($"Error {e.Message}");
             }
         }

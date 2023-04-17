@@ -11,29 +11,25 @@ namespace LightPlugin.Events.Internal
         [PluginEvent(ServerEventType.PlayerDeath)]
         public void OnPlayerDeath(PlayerAPI player)
         {
-            Plugin.CheckTeam.checkTeam(player);
-
             Plugin.TeamDamage.RemoveTeam(player);
         }
 
         [PluginEvent(ServerEventType.PlayerLeft)]
         public void OnPlayerLeft(PlayerAPI player)
         {
-            Plugin.CheckTeam.checkTeam(player);
-
             Plugin.TeamDamage.RemoveTeam(player);
-        }
-
-        [PluginEvent(ServerEventType.PlayerSpawn)]
-        public void OnPlayerSpawn(PlayerAPI player)
-        {
-           Plugin.CheckTeam.addTeam(player);
         }
 
         [PluginEvent(ServerEventType.PlayerDamage)]
         public void onPlayerDamage(HurtingEventArgs args)
         {
            Plugin.TeamDamage.onAttack(args);
+        }
+
+        [PluginEvent(ServerEventType.PlayerDying)]
+        public void onPlayerDying(DyingEventArgs args)
+        {
+            Plugin.CheckTeam.checkTeam(args);
         }
     }
 }
