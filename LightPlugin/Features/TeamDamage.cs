@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Exiled.API.Extensions;
 using Exiled.API.Features;
 using Exiled.Events.EventArgs.Player;
 using PlayerRoles;
@@ -20,8 +21,7 @@ namespace LightPlugin.Features
                 var attackerTeam = attacker.Role.Team;
                 var playerTeam = player.Role.Team;
 
-                var isTeam = (attackerTeam == playerTeam) || (attackerTeam == Team.FoundationForces && playerTeam == Team.Scientists)
-                || (attackerTeam == Team.Scientists && playerTeam == Team.FoundationForces);
+                var isTeam = attackerTeam.GetSide() == playerTeam.GetSide();
 
                 if (!isTeam) return;
 
